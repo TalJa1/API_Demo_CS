@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Demo_API_NET5.Controllers
@@ -26,6 +27,32 @@ namespace Demo_API_NET5.Controllers
         {
             var Customers = await _context.Customer.Select(a => new { a.Id, a.Name, a.DoB, a.Address, a.IsDeleted, a.Gender }).ToListAsync();
             return Ok(Customers);
+        }
+
+        [HttpGet("{customerId}")]
+        public async Task<IActionResult> getById(int customerId)
+        {
+            try
+            {
+                var customer = await _context.Customer.SingleOrDefaultAsync(a => a.Id == customerId);
+                if(customer == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        StatusCode= 200,
+                        Data= customer
+                    });
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            
         }
 
         [HttpPost]
@@ -56,5 +83,52 @@ namespace Demo_API_NET5.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPut("setDeleteCustomer/{customerId}")]
+        public async Task<IActionResult> setDeleteCustomer(int customerId)
+        {
+            try
+            {
+                var customer = await _context.Customer.FirstOrDefaultAsync(a => a.Id == customerId);
+                if(customer == null) { return NotFound();}
+                else
+                {
+                    customer.IsDeleted = true;
+                    _context.Customer.Update(customer);
+                    _context.SaveChanges();
+                    return Ok(new
+                    {
+                        StatusCode= 200,
+                        CustomerIdDeleted= customerId
+                    });
+                }
+            }
+            catch 
+            { 
+            return BadRequest();
+            }
+        }
+
+        //[HttpDelete("{customerID}")]
+        //public async Task<IActionResult> deleteById(int CustomerId) 
+        //{
+        //    try
+        //    {
+        //        var customer = await _context.Customer.FirstOrDefaultAsync(a => a.Id == CustomerId);
+        //        if (customer == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        _context.Customer.Remove(customer);
+        //        await _context.SaveChangesAsync();
+        //        return Ok();
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
+
     }
 }
