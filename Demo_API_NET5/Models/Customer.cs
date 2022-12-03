@@ -25,5 +25,18 @@ namespace Demo_API_NET5.Models
         public virtual ICollection<IdentityCard1> IdentityCard1s { get; set; }
         public virtual ICollection<MoneyTransaction1> MoneyTransaction1s { get; set; }
         public virtual ICollection<Wallet> Wallets { get; set; }
+
     }
+
+    public class CustomerDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime? DoB { get; set; }
+        public string Address { get; set; }
+        public byte? Gender { get; set; }
+        public string Phone { get; set; }
+        public bool IsDeleted { get; set; }
+    }
+
 }

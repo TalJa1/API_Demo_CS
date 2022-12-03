@@ -24,25 +24,37 @@ namespace Demo_API_NET5.Controllers
         [HttpGet]
         public async Task<IActionResult> getAll()
         {
-            var Customers = await _context.Customer.Select(a => new { a.Id , a.Gender}).ToListAsync();
+            var Customers = await _context.Customer.Select(a => new { a.Id, a.Name, a.DoB, a.Address, a.IsDeleted, a.Gender }).ToListAsync();
             return Ok(Customers);
         }
 
         [HttpPost]
-        public async Task<IActionResult> create(Customer customer)
+        public async Task<IActionResult> create(CustomerDTO customer)
         {
-            var newCustomer = new Customer
+            try
             {
-                Address = customer.Address,
-                DoB = customer.DoB,
-                Gender = customer.Gender,
-                Name = customer.Name,
-                Phone = customer.Phone,
-                IsDeleted = false,
-            };
-            await _context.AddAsync(newCustomer);
-            _context.SaveChanges();
-            return Ok();
+                var newCustomer = new Customer
+                {
+                    Address = customer.Address,
+                    DoB = customer.DoB,
+                    Gender = customer.Gender,
+                    Name = customer.Name,
+                    Phone = customer.Phone,
+                    IsDeleted = false,
+                };
+                await _context.AddAsync(newCustomer);
+                _context.SaveChanges();
+                return Ok(new
+                {
+                    StatusCode= 200,
+                    CreatedAt= DateTime.Now,
+                    Data = newCustomer
+                });
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }
