@@ -24,10 +24,7 @@ namespace Demo_API_NET5.Controllers
         [HttpGet]
         public async Task<IActionResult> getAll()
         {
-            //List<string> list = new List<string>(); 
-            var Customers = await _context.Customer.Select(a => a.Id).ToListAsync();
-            //var result = await (from a in new _context.Customer
-            //              select new Customer { Name = a.Name, Id = a.Id }).ToListAsync();
+            var Customers = await _context.Customer.Select(a => new { a.Id , a.Gender}).ToListAsync();
             return Ok(Customers);
         }
 
