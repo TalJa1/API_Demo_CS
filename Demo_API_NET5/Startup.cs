@@ -1,7 +1,10 @@
+using Demo_API_NET5.Datas;
+using Demo_API_NET5.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +31,10 @@ namespace Demo_API_NET5
         {
 
             services.AddControllers();
+            services.AddDbContext<MyDbContext>(op =>
+            {
+                op.UseSqlServer(Configuration.GetConnectionString("MyDB"));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo_API_NET5", Version = "v1" });
