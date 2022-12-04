@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -109,42 +110,27 @@ namespace Demo_API_NET5.Controllers
             }
         }
 
-        [HttpDelete("Delete/{customerID}")]
-        public async Task<IActionResult> deleteById(int CustomerId)
+        [HttpDelete("Delete/{customerId}")]
+        public IActionResult deleteById (int customerId)
         {
             try
             {
-                var customer = await _context.Customer.FirstOrDefaultAsync(a => a.Id == CustomerId);
-                if(customer == null)
-                {
-                    return NotFound($"Customer with Id {CustomerId} not found");
-                }
+                var customer = _context.Customer.FirstOrDefault(c => c.Id == customerId);
+                if(customer == null) { return NotFound();}
                 else
                 {
-                    if (customer.IdentityCard1s != null && customer.MoneyTransaction1s != null)
+                    _context.Customer.Remove(customer);
+                    _context.SaveChanges();
+                    return Ok(new
                     {
-                        var identityCard = await _context.identityCard1s.FirstOrDefaultAsync(a => a.CustomerId == CustomerId);
-                        var moneyTransaction = await _context.moneyTransaction1s.FirstOrDefaultAsync(a => a.CounterId == CustomerId);
-                        _context.identityCard1s.Remove(identityCard);
-                        _context.moneyTransaction1s.Remove(moneyTransaction);
-                        _context.Customer.Remove(customer);
-                        _context.SaveChanges();
-                        return Ok(new
-                        {
-                            StatusCode = 200,
-                            Message = $"Customer with Id {CustomerId} is deleted"
-                        });
-                    }
-                    else
-                    {
-                        return BadRequest();
-                    }
-                    
+                        StatusCode= 200,
+                        Message= $"Customer with id {customerId} is deleted"
+                    });
                 }
             }
-            catch(Exception e)
+            catch(Exception e) 
             {
-                return BadRequest($"Found the error: {e}");
+                return BadRequest(e.Message);
             }
         }
 
