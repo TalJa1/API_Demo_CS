@@ -109,26 +109,44 @@ namespace Demo_API_NET5.Controllers
             }
         }
 
-        //[HttpDelete("{customerID}")]
-        //public async Task<IActionResult> deleteById(int CustomerId) 
-        //{
-        //    try
-        //    {
-        //        var customer = await _context.Customer.FirstOrDefaultAsync(a => a.Id == CustomerId);
-        //        if (customer == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        _context.Customer.Remove(customer);
-        //        await _context.SaveChangesAsync();
-        //        return Ok();
-        //    }
-        //    catch
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
-
+        [HttpDelete("Delete/{customerID}")]
+        public async Task<IActionResult> deleteById(int CustomerId)
+        {
+            try
+            {
+                var customer = await _context.Customer.FirstOrDefaultAsync(a => a.Id == CustomerId);
+                if(customer == null)
+                {
+                    return NotFound($"Customer with Id {CustomerId} not found");
+                }
+                else
+                {
+                    if (customer.IdentityCard1s != null && customer.MoneyTransaction1s != null)
+                    {
+                        var identityCard = await _context.identityCard1s.FirstOrDefaultAsync(a => a.CustomerId == CustomerId);
+                        var moneyTransaction = await _context.moneyTransaction1s.FirstOrDefaultAsync(a => a.CounterId == CustomerId);
+                        _context.identityCard1s.Remove(identityCard);
+                        _context.moneyTransaction1s.Remove(moneyTransaction);
+                        _context.Customer.Remove(customer);
+                        _context.SaveChanges();
+                        return Ok(new
+                        {
+                            StatusCode = 200,
+                            Message = $"Customer with Id {CustomerId} is deleted"
+                        });
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
+                    
+                }
+            }
+            catch(Exception e)
+            {
+                return BadRequest($"Found the error: {e}");
+            }
+        }
 
     }
 }
