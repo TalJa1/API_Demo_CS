@@ -27,7 +27,7 @@ namespace Demo_API_NET5.Controllers
                 var getStudent = studentList.FirstOrDefault(a => a.studentId == Guid.Parse(id));
                 if (getStudent == null)
                 {
-                    return NotFound();
+                    return NotFound($"Can not found Customer with ID {id}");
                 }
                 return Ok(getStudent);
             }

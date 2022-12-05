@@ -26,7 +26,9 @@ namespace Demo_API_NET5.Controllers
         [HttpGet]
         public async Task<IActionResult> getAll()
         {
-            var Customers = await _context.Customer.Select(a => new { a.Id, a.Name, a.DoB, a.Address, a.IsDeleted, a.Gender }).ToListAsync();
+            var Customers = await _context.Customer
+                .Select(a => new { a.Id, a.Name, a.DoB, a.Address, a.IsDeleted, a.Gender })
+                .ToListAsync();
             return Ok(Customers);
         }
 
@@ -35,10 +37,15 @@ namespace Demo_API_NET5.Controllers
         {
             try
             {
-                var customer = await _context.Customer.SingleOrDefaultAsync(a => a.Id == customerId);
+                var customer = await _context.Customer
+                    .SingleOrDefaultAsync(a => a.Id == customerId);
                 if(customer == null)
                 {
-                    return NotFound();
+                    return NotFound(new
+                    {
+                        StatusCode= 404,
+                        Message = $"Can not found Customer with ID {customerId}"
+                    });
                 }
                 else
                 {
@@ -90,7 +97,8 @@ namespace Demo_API_NET5.Controllers
         {
             try
             {
-                var customer = await _context.Customer.FirstOrDefaultAsync(a => a.Id == customerId);
+                var customer = await _context.Customer
+                    .FirstOrDefaultAsync(a => a.Id == customerId);
                 if(customer == null) { return NotFound();}
                 else
                 {
