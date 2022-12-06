@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Store\\Code\\Back-End\\Demo_API_NET5\\Demo_API_NET5\\Demo_API_NET5.csproj": {}
+    "D:\\Store\\Code\\Back-End\\API_Demo_CS\\Demo_API_NET5\\Demo_API_NET5.csproj": {}
   },
   "projects": {
-    "D:\\Store\\Code\\Back-End\\Demo_API_NET5\\Demo_API_NET5\\Demo_API_NET5.csproj": {
+    "D:\\Store\\Code\\Back-End\\API_Demo_CS\\Demo_API_NET5\\Demo_API_NET5.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Store\\Code\\Back-End\\Demo_API_NET5\\Demo_API_NET5\\Demo_API_NET5.csproj",
+        "projectUniqueName": "D:\\Store\\Code\\Back-End\\API_Demo_CS\\Demo_API_NET5\\Demo_API_NET5.csproj",
         "projectName": "Demo_API_NET5",
-        "projectPath": "D:\\Store\\Code\\Back-End\\Demo_API_NET5\\Demo_API_NET5\\Demo_API_NET5.csproj",
+        "projectPath": "D:\\Store\\Code\\Back-End\\API_Demo_CS\\Demo_API_NET5\\Demo_API_NET5.csproj",
         "packagesPath": "C:\\Users\\ttcha\\.nuget\\packages\\",
-        "outputPath": "D:\\Store\\Code\\Back-End\\Demo_API_NET5\\Demo_API_NET5\\obj\\",
+        "outputPath": "D:\\Store\\Code\\Back-End\\API_Demo_CS\\Demo_API_NET5\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ttcha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -22,8 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.telerik.com/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
@@ -41,6 +40,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.17, )"
